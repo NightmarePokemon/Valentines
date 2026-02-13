@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch The Sunrise With Me</title>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, #0b0c10, #1a1a2e, #16213e);
+  animation: dawnSky 60s ease-in-out forwards;
+}
+@keyframes dawnSky {
+  0% { background: linear-gradient(to top, #0b0c10, #1a1a2e, #16213e); }
+  25% { background: linear-gradient(to top, #2c3e50, #34495e, #fbc2eb); }
+  50% { background: linear-gradient(to top, #ff9a9e, #fad0c4, #fbc2eb); }
+  75% { background: linear-gradient(to top, #ffe29f, #ffa99f, #fad0c4); }
+  100% { background: linear-gradient(to top, #ffecd2, #fcb69f, #ffe29f); }
+}
+.sun {
+  position: absolute;
+  bottom: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, #ffd700 40%, #ff8c00 70%, #ff4500 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 120px rgba(255,200,0,0.7);
+  animation: rise 60s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.sun:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 0 160px rgba(255,220,100,1);
+}
+@keyframes rise {
+  from { bottom: -200px; opacity: 0; }
+  to { bottom: 120px; opacity: 1; }
+}
+.ray {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  left: 50%;
+  bottom: 120px;
+  transform: translateX(-50%);
+  animation: pulse 10s infinite alternate;
+}
+@keyframes pulse {
+  from { transform: translateX(-50%) scale(1); opacity: 0.3; }
+  to { transform: translateX(-50%) scale(1.4); opacity: 0.6; }
+}
+.horizon {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(to top, rgba(255,180,100,0.8), transparent);
+  animation: horizonGlow 60s ease forwards;
+}
+@keyframes horizonGlow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: driftClouds 120s linear infinite;
+}
+@keyframes driftClouds {
+  from { transform: translateX(-300px); }
+  to { transform: translateX(120vw); }
+}
+.surprise {
+  position: absolute;
+  bottom: 8%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Sacramento', cursive;
+  font-size: 3.2rem;
+  color: #4b2c20;
+  text-shadow: 0 0 35px rgba(255,220,180,0.9);
+  opacity: 0;
+  animation: reveal 6s ease forwards, shimmer 4s infinite alternate;
+  animation-delay: 62s;
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  from { text-shadow: 0 0 20px rgba(255,200,150,0.6); }
+  to { text-shadow: 0 0 50px rgba(255,230,200,1); }
+}
+
+/* Continue button */
+#continueBtn {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  font-family: 'Great Vibes', cursive;
+  color: #4b2c20;
+  background: linear-gradient(135deg, #ffe29f, #fcb69f, #ffa99f);
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 0 25px rgba(255,200,150,0.8);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#continueBtn:hover {
+  box-shadow: 0 0 40px rgba(255,180,120,1);
+  transform: translateX(-50%) scale(1.05);
+}
+</style>
+</head>
+<body>
+<div class="sun" id="sun"></div>
+<div class="ray"></div>
+<div class="horizon"></div>
+<div class="surprise">You will always shine and rise in God's will</div>
+<button id="continueBtn">Continue</button>
+
+<audio autoplay loop>
+  <source src="music/romantic2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function createCloud() {
+  const cloud = document.createElement("div");
+  cloud.className = "cloud";
+  const size = 200 + Math.random() * 250;
+  cloud.style.width = size + "px";
+  cloud.style.height = size * 0.6 + "px";
+  cloud.style.top = Math.random() * (window.innerHeight / 2.5) + "px";
+  cloud.style.left = "-300px";
+  document.body.appendChild(cloud);
+  setTimeout(() => cloud.remove(), 120000);
+}
+setInterval(createCloud, 15000);
+for (let i = 0; i < 5; i++) createCloud();
+
+// Show Continue button after sunrise + text reveal
+setTimeout(() => {
+  const btn = document.getElementById("continueBtn");
+  btn.style.opacity = "1";
+  btn.addEventListener("click", () => {
+    if (window.navigateTo) navigateTo("connect.html"); else window.location.href = "connect.html"; // redirect to connect
+  });
+}, 68000); // after sun + text reveal
+</script>
+<!-- Page transition snippet -->
+<style>
+  body.page-transition{opacity:0;transform:translateY(6px);transition:opacity .5s ease, transform .5s ease}
+  body.page-ready{opacity:1;transform:none}
+  body.page-going{opacity:0;transform:translateY(-6px)}
+</style>
+<script>
+  (function(){
+    const body=document.body; body.classList.add('page-transition');
+    window.addEventListener('DOMContentLoaded',()=>{body.classList.add('page-ready'); body.classList.remove('page-transition')});
+    document.addEventListener('click', e=>{const a=e.target.closest('a[href]'); if(!a) return; const href=a.getAttribute('href'); if(href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('javascript:')) return; e.preventDefault(); body.classList.add('page-going'); setTimeout(()=>location.href=href,450);});
+    window.navigateTo=function(url){ body.classList.add('page-going'); setTimeout(()=>location.href=url,450); };
+  })();
+</script>
+</body>
+</html>
